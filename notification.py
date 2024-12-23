@@ -20,7 +20,7 @@ def send_email(subject, body, to_emails):
     msg['Subject'] = subject
     msg['To'] = ', '.join(to_emails)
 
-    msg.attach(MIMEText(body, 'plain'))
+    msg.attach(MIMEText(body, 'html'))
 
     # login to email and send email
     try:
@@ -36,16 +36,27 @@ def send_email(subject, body, to_emails):
         return False
 
 def format_album_email_body(recent_albums):
-    body = "Here are the recent albums released by artists you follow:\n\n"
+    html_body = """
+    <html>
+    <body style="text-align: center; font-family: Arial, sans-serif;">
+    """
     for album in recent_albums:
         album_name = album['name']
         album_url = album['external_urls']['spotify']
         artist_name = album['artists'][0]['name']
         release_date = album['release_date']
-        body += f"Album: {album_name} by {artist_name}\n"
-        body += f"Release Date: {release_date}\n"
-        body += f"Spotify Link: {album_url}\n\n"
-    return body
+        cover_art_url = album['images'][0]['url'] if album['images'] else None
+
+        html_body += f"""
+        <div style="margin-bottom: 30px;">
+            <p style="margin: 0; line-height: 1.2;"><strong>{album_name}</strong> by {artist_name}</p>
+            <p style="margin: 0; line-height: 1.2;">Release Date: {release_date}</p>
+            {"<a href='" + album_url + "'><img src='" + cover_art_url + "' alt='" + album_name + "' style='width: 300px; height: 300px; margin-top: 5px;'></a>" if cover_art_url else ""}
+        </div>
+        """
+
+    html_body += "</body></html>"
+    return html_body
 
 def notify_recent_albums(sp, to_emails):
     last_run_time = interface.get_last_run_time()
