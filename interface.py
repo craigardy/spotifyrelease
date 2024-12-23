@@ -77,24 +77,3 @@ def get_recent_albums_by_followed_artists(sp, last_run_time):
         for result in results:
             all_recent_albums.extend(result)
     return all_recent_albums
-
-# Display the recent albums released after the last run time
-def display_recent_albums(sp):
-    last_run_time = get_last_run_time()
-    # Format the last run time to 'YYYY-MM-DD'
-    last_run_time_str = last_run_time.strftime('%Y-%m-%d')
-
-    recent_albums = get_recent_albums_by_followed_artists(sp, last_run_time)
-
-    print(f"Recent albums by followed artists (released since {last_run_time_str}):")
-    for album in recent_albums:
-        album_name = album['name']
-        album_url = album['external_urls']['spotify']
-        artist_name = album['artists'][0]['name']
-        release_date = album['release_date']
-
-        print(f"Album: {album_name} by {artist_name} (released on {release_date})")
-        print(f"Spotify Link: {album_url}")
-
-    # Save the current run time for the next execution
-    save_current_run_time()
