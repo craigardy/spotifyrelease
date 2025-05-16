@@ -3,7 +3,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from dotenv import load_dotenv
 import os
-import interface
+import app.releases.utils.interface as interface
 
 load_dotenv()
 
@@ -58,14 +58,14 @@ def format_album_email_body(recent_albums):
     html_body += "</body></html>"
     return html_body
 
-def notify_recent_albums(sp, to_emails):
-    last_run_time = interface.get_last_run_time()
+def notify_recent_albums(sp, to_emails, last_run_time):
     recent_albums = interface.get_recent_albums_by_followed_artists(sp, last_run_time)
 
     if recent_albums:
         email_body = format_album_email_body(recent_albums)
         email_subject = f"Album Releases Since {last_run_time.strftime('%Y-%m-%d')}"
-        return send_email(email_subject, email_body, to_emails)
+        email_status = send_email(email_subject, email_body, to_emails)
+        return {"email_success": email_status, "check_success": email_status}
     else:
         print("No new albums released since the last check.")
-        return True
+        return {"email_success": False, "check_success": True}
