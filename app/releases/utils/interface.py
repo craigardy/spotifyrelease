@@ -1,37 +1,5 @@
 import datetime
 import concurrent.futures
-import os
-
-# Function to get the last run time from a text file
-# Default is 2 weeks ago if program not ran yet.
-def get_last_run_time():
-    # Path to the text file that stores the last run time
-    last_run_file = 'last_run.txt'
-
-    # If the file doesn't exist, return a default of two weeks ago
-    if not os.path.exists(last_run_file):
-        two_weeks_ago = datetime.datetime.today() - datetime.timedelta(weeks=2)
-        return two_weeks_ago
-
-    # Read the last run time from the file
-    try:
-        with open(last_run_file, 'r') as file:
-            last_run_str = file.read().strip()
-            # If the file is empty or the date is not valid, return a default value
-            if not last_run_str:
-                raise ValueError("File is empty.")
-            return datetime.datetime.fromisoformat(last_run_str)
-    except (ValueError, OSError) as e:
-        # If there's an error reading or parsing the date, return a default value
-        print(f"Error reading last run time: {e}. Defaulting to two weeks ago.")
-        two_weeks_ago = datetime.datetime.today() - datetime.timedelta(weeks=2)
-        return two_weeks_ago
-
-# Function to save the current run time to a text file
-def save_current_run_time():
-    now = datetime.datetime.today()
-    with open('last_run.txt', 'w') as file:
-        file.write(now.isoformat())
 
 # Function to get the list of artists the current user follows
 def get_followed_artists(sp):

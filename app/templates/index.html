@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Release Notifier - Craig Ardiel</title>
+    <link href="{{ url_for('static', filename='styles/style.css')}}" rel="stylesheet" />
+    <script src="{{ url_for('static', filename='js/email_verification.js') }}"></script>
+</head>
+
+<body>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul class="flashed-messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% endwith %}
+
+        <header>
+            <h1>Spotify Release Notifier</h1>
+            <p>by Craig Ardiel</p>
+        </header>
+
+        <form method="GET" action="/auth/signup" id="form">
+            <div class="form-group">
+                <label for="email1">Enter your email:</label>
+                <input type="email" name="email1" id="email1" required>
+                <p id="invalidEmail">This email is invalid. Make sure it's written like example@email.com</p>
+            </div>
+
+            <div class="form-group">
+                <label for="email2">Verify your email:</label>
+                <input type="email" name="email2" id="email2" required>
+                <p id="EmailNotMatching">Email addresses do not match. Please make sure both entries are identical.</p>
+            </div>
+
+            <button type="submit">Sign Up</button>
+            <p id="invalidSubmission">There was invalid information entered. Please review all information entered and
+                resubmit</p>
+        </form>
+
+        <section id="about">
+            <h2>About the Application</h2>
+            <p>
+                Stay up to date with new music from your favorite artists on Spotify.
+                This app sends you email updates about the latest releases from the artists you follow.
+            </p>
+            <p>
+                When you sign up with your email, you'll be asked to authorize access to your followed artists on
+                Spotify. Once authorized, you'll receive an initial email with any new music they've released in the
+                past 4 weeks.
+            </p>
+            <p>
+                After that, you'll get updates every two weeks so you never miss a new release.
+            </p>
+            <p>
+                We request permission to view the artists you follow and the music in your Spotify library. This allows
+                us to identify recent releases from your favorite artists and ensure you don't miss anything you've
+                saved or followed. Your email is used solely to send updates — nothing else.
+            </p>
+        </section>
+
+        <section id="developer-info">
+            <h2>Developer Info</h2>
+            <p>This project demonstrates my skills in several key areas:</p>
+            <ul>
+                <li>
+                    <strong>Backend:</strong>
+                    <ul>
+                        <li>
+                            <strong>Flask:</strong> Used for building the web application's backend, handling routing,
+                            managing user sessions, and integrating with the Spotify API.
+                        </li>
+                        <li>
+                            <strong>Flask Blueprints:</strong> Organized application routes using Flask Blueprints for
+                            better code modularity and maintainability.
+                        </li>
+                        <li>
+                            <strong>SQLAlchemy:</strong> Employed as an ORM to interact with the SQLite database,
+                            defining the data models and performing database operations.
+                        </li>
+                        <li>
+                            <strong>Email Handling:</strong> Automated email notifications using Python's
+                            <code>email.mime</code> library within the Flask application.
+                        </li>
+                        <li>
+                            <strong>Flask's `redirect`, `url_for`, and `session`:</strong> Implemented user
+                            authentication and navigation using Flask's features for redirects and session management.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>API Interaction:</strong>
+                    <ul>
+                        <li>
+                            <strong>Spotipy:</strong> Utilized the Spotipy library to interact with the Spotify Web API,
+                            retrieving artist and release information.
+                        </li>
+                        <li>
+                            <strong>`concurrent.futures.ThreadPoolExecutor`:</strong> Utilized to efficiently fetch data
+                            from the Spotify API by making concurrent requests.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Frontend:</strong>
+                    <ul>
+                        <li>
+                            <strong>JavaScript:</strong> Implemented client-side email validation to enhance user
+                            experience and ensure data integrity.
+                        </li>
+                        <li>
+                            <strong>Regular Expressions (`re`):</strong> Employed for robust validation of user-provided
+                            email addresses.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Database:</strong>
+                    <ul>
+                        <li>
+                            <strong>SQLite:</strong> Used for local data storage.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Configuration Management:</strong>
+                    <ul>
+                        <li>
+                            <strong>Flask Configuration Classes:</strong> Utilized to handle different application
+                            environments (development, production), allowing for customized settings.
+                        </li>
+                        <li>
+                            <strong>`python-dotenv`:</strong> Used to manage environment variables, ensuring secure
+                            storage of sensitive information like API keys.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Deployment:</strong>
+                    <ul>
+                        <li>
+                            <strong>`waitress`:</strong> (or Gunicorn/uWSGI) For production deployments, the application
+                            is served using `waitress`, a production-ready WSGI server.
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Version Control:</strong>
+                    <ul>
+                        <li>
+                            <strong>Git:</strong> Used for version control and collaboration, with the source code
+                            available on <a href="https://github.com/craigardy/spotifyrelease" target="_blank"
+                                rel="noopener noreferrer">GitHub</a>.
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section id="contact">
+            <h2>Contact</h2>
+            <p>Email: <a href="mailto:craig.ardiel@gmail.com">craig.ardiel@gmail.com</a></p>
+            <p>
+                Connect with me on
+                <a href="https://www.linkedin.com/in/craig-ardiel/" target="_blank"
+                    rel="noopener noreferrer">LinkedIn</a>.
+            </p>
+        </section>
+
+        <footer>
+            <p>© 2025 Craig Ardiel</p>
+        </footer>
+
+    </div>
+</body>
+
+</html>
