@@ -11,8 +11,4 @@ with app.app_context():
     db.create_all()
 
 if __name__ == "__main__":
-    if env == 'production':
-        from waitress import serve
-        serve(app, host="0.0.0.0", port=8000)
-    else:
-        app.run(host="127.0.0.1", port=5000, debug=True)
+    app.run(host="127.0.0.1", port=5000, debug=True)
