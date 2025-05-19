@@ -3,6 +3,10 @@ from spotipy.oauth2 import SpotifyOAuth
 from spotipy.cache_handler import CacheHandler
 from flask import session
 from config import Config
+import logging
+
+# Configure logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 # Custom CacheHandler to store Spotify tokens in Flask session
@@ -26,8 +30,24 @@ def get_user_spotify_oauth():
     adapter = requests.adapters.HTTPAdapter(pool_connections=50, pool_maxsize=50, pool_block=True)
     session_obj.mount('https://', adapter)
 
+    # Log the session object and its adapter configuration
+    https_adapter = session_obj.adapters.get('https://')
+    if https_adapter:
+        logging.info(f"Adapter for 'https://': {https_adapter}")
+
+        # Access PoolManager (only available if urllib3 is used)
+        poolmanager = getattr(https_adapter, 'poolmanager', None)
+        if poolmanager:
+            logging.info(f"PoolManager connections: {poolmanager.connection_pool_kw.get('maxsize')}")
+            logging.info(f"PoolManager config: {poolmanager.connection_pool_kw}")
+        else:
+            logging.warning("PoolManager not found on HTTPS adapter.")
+    else:
+        logging.warning("No 'https://' adapter found in the session.")
+
+
     # Create the SpotifyOAuth instance with the custom session
-    return SpotifyOAuth(
+    sp_oauth = SpotifyOAuth(
         client_id=Config.CLIENT_ID,
         client_secret=Config.CLIENT_SECRET,
         redirect_uri=Config.REDIRECT_URI,
@@ -35,6 +55,10 @@ def get_user_spotify_oauth():
         cache_handler=SessionCacheHandler(),
         requests_session=session_obj  # Attach the custom session here
     )
+
+    sp_oauth.session_obj = session_obj
+
+    return sp_oauth
 
 # Helper function to ensure token is valid and refresh if expired
 def get_valid_token(sp_oauth):
