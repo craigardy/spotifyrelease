@@ -19,9 +19,11 @@ def create_app(config_name='development'):
     # Register blueprints
     from app.auth.routes import auth_bp
     from app.releases.routes import releases_bp
+    from app.scheduled.routes import scheduled_bp
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(releases_bp, url_prefix='/releases')
+    app.register_blueprint(scheduled_bp, url_prefix='/scheduled')
 
     # Register main routes
     @app.route('/')
