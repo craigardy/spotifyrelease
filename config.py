@@ -15,6 +15,9 @@ class Config:
     REDIRECT_URI = os.getenv("SPOTIPY_REDIRECT_URI")
     SCOPE = "user-follow-read user-library-read"
 
+    # Load Dropbox credentials
+    DROPBOX_ACCESS_TOKEN = os.getenv("DROPBOX_ACCESS_TOKEN")
+
 class DevelopmentConfig(Config):
     DEBUG = True
 
