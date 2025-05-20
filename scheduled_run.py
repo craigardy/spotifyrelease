@@ -6,6 +6,7 @@ import requests
 from config import Config
 import time
 import logging
+from app.backup.utils import link_to_dropbox, upload_sqlite_db
 
 # Set up logging
 logging.basicConfig(
@@ -120,6 +121,12 @@ def run_for_all_users():
     try:
         db.session.commit()
         logger.info("Successfully committed all user updates")
+        try:
+            dbx = link_to_dropbox()
+            upload_sqlite_db(dbx, db)
+            logging.info("Database uploaded to Dropbox after commit.")
+        except Exception as e:
+            logging.error(f"Dropbox upload failed after commit: {e}")
     except Exception as e:
         logger.error(f"Failed to update database: {str(e)}")
 

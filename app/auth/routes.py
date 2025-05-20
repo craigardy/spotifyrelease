@@ -3,6 +3,7 @@ from app import db
 from app.models import User
 from app.auth.utils import get_user_spotify_oauth
 from sqlalchemy.exc import IntegrityError
+from app.backup.utils import link_to_dropbox, upload_sqlite_db
 import re
 import logging
 
@@ -91,6 +92,13 @@ def callback():
     try:
         db.session.commit()
         logging.info(f"Successfully saved user data to database for email: {user_email}")
+        try:
+            dbx = link_to_dropbox()
+            upload_sqlite_db(dbx, db)
+            logging.info("Database uploaded to Dropbox after commit.")
+        except Exception as e:
+            logging.error(f"Dropbox upload failed after commit: {e}")
+
         return redirect(url_for('releases.releases'))
     except IntegrityError as e:
         db.session.rollback()

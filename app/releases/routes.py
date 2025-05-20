@@ -3,6 +3,7 @@ from app import db
 from app.models import User
 from app.auth.utils import get_user_spotify_oauth, get_valid_token
 from app.releases.utils.getReleases import get_new_releases
+from app.backup.utils import link_to_dropbox, upload_sqlite_db
 import datetime
 from sqlalchemy.exc import IntegrityError
 import logging
@@ -65,6 +66,12 @@ def releases():
         # Commit changes to database
         try:
             db.session.commit()
+            try:
+                dbx = link_to_dropbox()
+                upload_sqlite_db(dbx, db)
+                logging.info("Database uploaded to Dropbox after commit.")
+            except Exception as e:
+                logging.error(f"Dropbox upload failed after commit: {e}")
         except IntegrityError:
             db.session.rollback()
             session.clear()
