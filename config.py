@@ -16,7 +16,9 @@ class Config:
     SCOPE = "user-follow-read user-library-read"
 
     # Load Dropbox credentials
-    DROPBOX_ACCESS_TOKEN = os.getenv("DROPBOX_ACCESS_TOKEN")
+    DROPBOX_APP_KEY = os.getenv("DROPBOX_APP_KEY")
+    DROPBOX_APP_SECRET = os.getenv("DROPBOX_APP_SECRET")
+    DROPBOX_REFRESH_TOKEN = os.getenv("DROPBOX_REFRESH_TOKEN")
 
 class DevelopmentConfig(Config):
     DEBUG = True

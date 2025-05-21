@@ -38,12 +38,10 @@ def create_app(config_name='development'):
     from app.auth.routes import auth_bp
     from app.releases.routes import releases_bp
     from app.scheduled.routes import scheduled_bp
-    from app.backup.routes import backup_bp
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(releases_bp, url_prefix='/releases')
     app.register_blueprint(scheduled_bp, url_prefix='/scheduled')
-    app.register_blueprint(backup_bp, url_prefix='/backup')
 
     # Register main routes
     @app.route('/')

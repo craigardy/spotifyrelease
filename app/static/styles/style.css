@@ -155,6 +155,24 @@ button:hover {
     display: none;
 }
 
+/* Note Section Styles -unchanged */
+#note {
+    margin-top: 0.5rem;
+    background-color: #fefff0;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid #d0e6f6;
+}
+
+#note h2 {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+#note p {
+    line-height: 1.6;
+}
+
 /* About Section Styles -unchanged */
 #about {
     margin-top: 2rem;
