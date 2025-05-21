@@ -30,7 +30,27 @@ def decrypt_file(input_path, output_path):
 
 
 def link_to_dropbox():
-    return dropbox.Dropbox(Config.DROPBOX_ACCESS_TOKEN)
+    if not Config.DROPBOX_APP_KEY or not Config.DROPBOX_APP_SECRET or not Config.DROPBOX_REFRESH_TOKEN:
+        logger.error("Dropbox API credentials (APP_KEY, APP_SECRET, or REFRESH_TOKEN) are missing.")
+        raise ValueError("Dropbox API credentials are not fully configured.")
+    
+    try:
+        dbx = dropbox.Dropbox(
+            app_key=Config.DROPBOX_APP_KEY,
+            app_secret=Config.DROPBOX_APP_SECRET,
+            oauth2_refresh_token=Config.DROPBOX_REFRESH_TOKEN
+        )
+        # Verify connection
+        dbx.users_get_current_account()
+        logger.info("Successfully linked to Dropbox using refresh token.")
+        return dbx
+    except dropbox.exceptions.AuthError as e:
+        logger.error(f"Dropbox authentication error: {e}. Please check your refresh token and app credentials.")
+        raise
+    except Exception as e:
+        logger.error(f"Failed to link to Dropbox: {e}")
+        raise
+
 
 def download_sqlite_db(dbx, dropbox_path='/backups/site.db.enc'):
     db_path = os.path.join(current_app.instance_path, 'site.db')

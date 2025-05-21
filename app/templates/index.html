@@ -26,6 +26,13 @@
             <p>by Craig Ardiel</p>
         </header>
 
+        <section id="note">
+            <h2>Important Note</h2>
+            <p>
+                As of 15 May, 2025, extended quota mode restrictions prevents any user from signing up to get new releases from artists you follow. In order to get access to this functionality, users must reach out to me directly to be added to Spotify's approved list of users for this app. Click <a href="https://developer.spotify.com/blog/2025-04-15-updating-the-criteria-for-web-api-extended-access">here</a> to learn more about these recent changes. You can reach out to me via <a href="mailto:craig.ardiel@gmail.com">email</a>.
+            </p>
+        </section>
+
         <form method="GET" action="/auth/signup" id="form">
             <div class="form-group">
                 <label for="email1">Enter your email:</label>
@@ -47,7 +54,7 @@
         <section id="about">
             <h2>About the Application</h2>
             <p>
-                Stay up to date with new music from your favorite artists on Spotify.
+                Stay up to date with new music from your favourite artists on Spotify.
                 This app sends you email updates about the latest releases from the artists you follow.
             </p>
             <p>
@@ -104,6 +111,9 @@
                         <li>
                             <strong>`concurrent.futures.ThreadPoolExecutor`:</strong> Utilized to efficiently fetch data
                             from the Spotify API by making concurrent requests.
+                        </li>
+                        <li>
+                            <strong>Dropbox:</strong> Interact with the Dropbox API for database backups.
                         </li>
                     </ul>
                 </li>
